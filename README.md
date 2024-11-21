@@ -1,21 +1,21 @@
-This is a slimmed down version of Raphaël Velt's clock.
-I felt their version was a bit to busy. 
-Removed - birds
-        - scrolling updates
-        - hearts
-
-Added   - Feels like temprature 
-        - formatting of code
-
-
-
 
 # galactic-weather-clock
  A clock showing the weather on a Pimoroni Galactic Unicorn
 
 ### What is it?
 
-A Micropython script for Pimoroni's Galactic Unicorn [buy from Pimoroni shop](https://shop.pimoroni.com/products/galactic-unicorn) that shows a clock as well as the weather forecast for the next 12 hours.
+*This is a slimmed down version of Raphaël Velt's clock.
+*I felt their version was a bit to busy. 
+*Removed - birds
+*        - scrolling updates
+*        - hearts
+*
+*Added   - Feels like temprature 
+*        - formatting of code
+
+
+
+A Micropython script for Pimoroni's Galactic Unicorn [buy from Pimoroni shop](https://shop.pimoroni.com/products/galactic-unicorn) that shows a clock as well as the current weather.
 
 It uses the [Open Meteo API](https://open-meteo.com/en/docs) to retrieve the weather forecast as well as to adjust the time zone.
 
