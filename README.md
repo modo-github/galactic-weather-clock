@@ -4,7 +4,10 @@
 
 ### What is it?
 
-This is a slimmed down version of Raphaël Velt's clock.
+This is a slimmed down version of Raphaël Velt's script for Pimoroni's Galactic Unicorn [buy from Pimoroni shop](https://shop.pimoroni.com/products/galactic-unicorn) that shows a clock as well as the current weather.
+
+It uses the [Open Meteo API](https://open-meteo.com/en/docs) to retrieve the weather forecast as well as to adjust the time zone.
+
 I felt their version was a bit to busy. 
 #### Removed 
 * Birds
@@ -14,10 +17,6 @@ I felt their version was a bit to busy.
 #### Added   
 * Feels like temprature
 * Formatting of code
-
-A Micropython script for Pimoroni's Galactic Unicorn [buy from Pimoroni shop](https://shop.pimoroni.com/products/galactic-unicorn) that shows a clock as well as the current weather.
-
-It uses the [Open Meteo API](https://open-meteo.com/en/docs) to retrieve the weather forecast as well as to adjust the time zone.
 
 
 ### Preview
