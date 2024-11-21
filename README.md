@@ -6,12 +6,12 @@
 
 This is a slimmed down version of Raphaël Velt's clock.
 I felt their version was a bit to busy. 
-### Removed 
+#### Removed 
 * Birds, 
 * Scrolling updates 
-   Hearts
+* Hearts
 
-### Added   
+#### Added   
 * Feels like temprature
 * Formatting of code
 
