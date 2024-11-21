@@ -17,6 +17,8 @@ I felt their version was a bit to busy.
 #### Added   
 * Feels like temprature
 * Formatting of code
+* Brightness controls
+* Sleep button
 
 
 ### Preview
@@ -40,7 +42,5 @@ I felt their version was a bit to busy.
 
 ### To-do
 * Update some of the weather sprites
-* Add brightness controls
-* Sleep button
 * A button to refresh time
 * B button to refresh weather
