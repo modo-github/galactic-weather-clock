@@ -4,16 +4,16 @@
 
 ### What is it?
 
-*This is a slimmed down version of Raphaël Velt's clock.
-*I felt their version was a bit to busy. 
-*Removed 
-* - birds, scrolling updates, hearts
+This is a slimmed down version of Raphaël Velt's clock.
+I felt their version was a bit to busy. 
+### Removed 
+* Birds, 
+* Scrolling updates 
+   Hearts
 
-*
-*Added   
-* - Feels like temprature, formatting of code
-
-
+### Added   
+* Feels like temprature
+* Formatting of code
 
 A Micropython script for Pimoroni's Galactic Unicorn [buy from Pimoroni shop](https://shop.pimoroni.com/products/galactic-unicorn) that shows a clock as well as the current weather.
 
