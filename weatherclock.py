@@ -1,18 +1,17 @@
 import time
+import machine
 import ntptime
 import urequests
-import random
-import os
 from galactic import GalacticUnicorn
 from picographics import PicoGraphics, DISPLAY_GALACTIC_UNICORN
 from connect import connect, isconnected
 import weatherclock_assets
 import location_config
-from wave_player import WavePlayer
+
 
 graphics = PicoGraphics(display=DISPLAY_GALACTIC_UNICORN)
 gu = GalacticUnicorn()
-wp = WavePlayer(gu)
+
 
 WIDTH = gu.WIDTH
 HEIGHT = gu.HEIGHT
@@ -21,35 +20,15 @@ current_tz = 0 # UTC by default, can be updated via Open Meteo
 REFRESH_NTP = 3600
 REFRESH_WEATHER = 1200
 
-FORECASTS_TO_SHOW = list(range(1,13))
-FORECAST_DURATION = 6
-
-WEATHER_URL = "http://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&timezone=%s&hourly=weathercode,temperature_2m&forecast_days=2&current_weather=true"%(
+WEATHER_URL = "http://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&current=temperature_2m,apparent_temperature,weather_code&timezone=%s&forecast_days=1"%(
     location_config.LATITUDE,
     location_config.LONGITUDE,
     location_config.TZ_DEF.replace('/','%2F')
-    )
 
-BIRD_SONGS = [ 'birds/%s'%f for f in os.listdir('birds') ]
+)
 
 PENS = [ graphics.create_pen(*color) for color in weatherclock_assets.BASE_COLORS ]
-BLACK  = PENS[0]
-WHITE  = PENS[15]
 
-WAKING_HOURS = [
- # 11pm 8pm 4pm noon 8am 4am midnight(0am)
- #    |  |   |   |   |   |   |
- #    v  V   V   v   v   v   v
-    0b000011111111111110000000, # Monday
-    0b000011111111111110000000, # Tuesday
-    0b000011111111111110000000, # Wednesday
-    0b000011111111111110000000, # Thursday
-    0b000011111111111110000000, # Friday
-    0b000011111111111000000000, # Saturday
-    0b000011111111111000000000, # Sunday
-]
-
-SONG_LOOP_COUNT = 2
 
 def update_time():
     global last_ntp_update
@@ -71,17 +50,14 @@ def update_weather():
         r = urequests.get(
             WEATHER_URL)
         j = r.json()
-        now_time = j["current_weather"]["time"][:-2]
-        index_now = 0
-        for i,t in enumerate(j["hourly"]["time"]):
-            if t == now_time[:-2]:
-                index_now = i
-                break
+        print(j)
+
         forecasts = [
-            (int(j["hourly"]["time"][i + index_now][-5:-3]),
-             j["hourly"]["temperature_2m"][i + index_now],
-             j["hourly"]["weathercode"][i + index_now],
-            ) for i in FORECASTS_TO_SHOW
+            (int(j["current"]["time"][-5:-3]),
+             j["current"]["temperature_2m"],
+             j["current"]["weather_code"],
+             j["current"]["apparent_temperature"]
+             )
         ]
         print(forecasts)
         current_tz = j["utc_offset_seconds"]
@@ -89,11 +65,13 @@ def update_weather():
     except (Exception) as e:
         print('Error getting weather', e)
 
+
 def get_weather_type(weather_code):
     for weather in weatherclock_assets.WEATHER_TYPES:
         if weather_code in weather[0]:
             return weather
     return None
+
 
 @micropython.native
 def draw_weather(weather_code, frame_parity, offset_x=0, offset_y=0):
@@ -126,28 +104,6 @@ def draw_digit(i, offset_x, offset_y):
                     graphics.pixel(xpos, ypos)
                 line = (line >> 1)
 
-@micropython.native
-def draw_heart(offset_x, offset_y):
-    heart = weatherclock_assets.HEART
-    for y in range(4):
-        ypos = offset_y + y
-        if (ypos >= 0) or (ypos < HEIGHT):
-            line = heart[y]
-            for x in range(5):
-                if (line & 1):
-                    graphics.pixel(x + offset_x, ypos)
-                line = (line >> 1)
-
-@micropython.native
-def draw_bird(offset_x, frame):
-    bird = weatherclock_assets.BIRD[frame]
-    for y in range(11):
-        line = bird[y]
-        for x in range(13):
-            if (line & 1):
-                posx = (x + offset_x)%WIDTH
-                graphics.pixel(posx, y)
-            line = (line >> 1)
 
 def char_to_digit(digit_char):
     if type(digit_char) == int:
@@ -163,7 +119,7 @@ def char_to_digit(digit_char):
         return int(ch,16)
     except (Exception):
         return 0xf
-    
+
 def draw_number( num, offset_x, offset_y, from_right=False):
     numstr = str(num)
     x = offset_x
@@ -174,15 +130,16 @@ def draw_number( num, offset_x, offset_y, from_right=False):
         x += 4
 
 def draw_forecast(forecast, offset_y):
-    graphics.set_pen(PENS[8])
-    draw_number('%dc'%forecast[0],36,offset_y,True)
-    graphics.set_pen(PENS[11])
-    draw_number('%.0fd'%forecast[1],36,6+offset_y,True)
+    graphics.set_pen(PENS[15])
+    draw_number('%.0fd'%forecast[1],32,0+offset_y,True)
     draw_weather(forecast[2],parity,38,offset_y)
+    draw_number('%.0fd'%forecast[3],32,6+offset_y,True)
+    # print(forecast[3])
+    # print(forecast[1])
 
-graphics.set_pen(BLACK)
+graphics.set_pen(PENS[0])
 graphics.clear()
-graphics.set_pen(WHITE)
+graphics.set_pen(PENS[15])
 graphics.set_font('display8')
 graphics.text("Hello!", 0, 0, scale=.5)
 gu.set_brightness(.5)
@@ -214,48 +171,32 @@ while True:
         local_now = now + current_tz
         year, month, day, hour, minute, second, weekday, _ = time.localtime(local_now)
         gu.set_brightness(max(.15,min(1.,gu.light()/600)))
-        if last_hour != hour and minute == 0: #Sing every hour
-            last_hour = hour
-            if ((WAKING_HOURS[weekday] >> hour) & 1): #But not at night
-                wp.play(random.choice(BIRD_SONGS), loop=SONG_LOOP_COUNT)
     if minute == 0 and second < 20:
         for x in range(WIDTH):
             graphics.set_pen(graphics.create_pen_hsv(x/WIDTH,1,.8))
             graphics.line(x,0,x,HEIGHT)
-        graphics.set_pen(BLACK)
-        draw_bird(cycles%53, (cycles >> 2) & 1)
-        
+
+
     else:
-        graphics.set_pen(BLACK)
+        graphics.set_pen(PENS[0])
         graphics.clear()
-        graphics.set_pen(PENS[9])
-        draw_number('{:02}'.format(day),0,0)
-        draw_number('{:02}'.format(month),10,0)
-        graphics.set_pen(PENS[10])
-        draw_number('{:02}'.format(hour),0,6)
-        draw_number('{:02}'.format(minute),10,6)
-        graphics.set_pen(WHITE)
+        graphics.set_pen(PENS[1]) # change the colour of the clock
+        draw_number(f"{hour:02}",0, 0)
+        draw_number(f"{minute:02}", 10, 0)
+        graphics.set_pen(PENS[2]) # change the colour of the date
+        draw_number(f"{day:02}",0, 6)
+        draw_number(f"{month:02}", 10, 6)
+
+
+        graphics.set_pen(PENS[15]) # change the colour of the time dots
         if parity:
-            graphics.pixel(8,7)
-            graphics.pixel(8,9)
-        
-        graphics.set_pen(graphics.create_pen_hsv(cycles%150/150,1,.8))
-        draw_heart(18,1)
-        
-        graphics.set_pen(graphics.create_pen_hsv((cycles+20)%150/150,1,.8))
-        draw_heart(18,6)
-          
+            graphics.pixel(8,1)
+            graphics.pixel(8,3)
+
         if forecasts is not None:
-            if (not now % FORECAST_DURATION) and not is_scrolling:
-                scrolling_pos = 1
             draw_forecast(forecasts[displayed_forecast_index],-scrolling_pos)
-            is_scrolling = bool(scrolling_pos)
-            if scrolling_pos:
-                draw_forecast(forecasts[(1+displayed_forecast_index)%len(forecasts)],HEIGHT+2-scrolling_pos)
-                scrolling_pos = (1+scrolling_pos)%(2+HEIGHT)
-                if not scrolling_pos:
-                    displayed_forecast_index = (1+displayed_forecast_index)%len(forecasts)
-                    
+
+
     time.sleep(.1)
     gu.update(graphics)
     cycles += 1

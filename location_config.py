@@ -1,3 +1,3 @@
-LATITUDE = "43"
-LONGITUDE = "7"
-TZ_DEF = "Europe/Berlin"
+LATITUDE = "52.0417"
+LONGITUDE = "-0.7558"
+TZ_DEF = "Europe/London"
