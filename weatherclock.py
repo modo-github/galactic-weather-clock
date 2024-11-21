@@ -12,6 +12,10 @@ import location_config
 graphics = PicoGraphics(display=DISPLAY_GALACTIC_UNICORN)
 gu = GalacticUnicorn()
 
+# Initialize state variables
+brightness = 0.5
+sleep_mode = False
+
 
 WIDTH = gu.WIDTH
 HEIGHT = gu.HEIGHT
@@ -137,6 +141,28 @@ def draw_forecast(forecast, offset_y):
     # print(forecast[3])
     # print(forecast[1])
 
+
+# Brightness control and sleep mode functions
+def handle_brightness_change():
+    global brightness
+    if gu.is_pressed(GalacticUnicorn.SWITCH_BRIGHTNESS_DOWN):
+        brightness = max(0.1, brightness - 0.1)
+        gu.set_brightness(brightness)
+    elif gu.is_pressed(GalacticUnicorn.SWITCH_BRIGHTNESS_UP):
+        brightness = min(1.0, brightness + 0.1)
+        gu.set_brightness(brightness)
+
+
+def handle_sleep_mode():
+    global sleep_mode
+    if gu.is_pressed(GalacticUnicorn.SWITCH_SLEEP):
+        sleep_mode = not sleep_mode
+        if sleep_mode:
+            graphics.set_pen(PENS[0])
+            graphics.clear()
+            gu.update(graphics)
+
+
 graphics.set_pen(PENS[0])
 graphics.clear()
 graphics.set_pen(PENS[15])
@@ -158,45 +184,50 @@ is_scrolling = False
 cycles = 0
 
 while True:
+    handle_brightness_change()
+    handle_sleep_mode()
+
+    if sleep_mode:
+        time.sleep(0.1)
+        continue
+
     now = time.time()
     msecs = time.ticks_ms()
-    parity = (msecs//500)&1
-    if (now != last_second):
+    parity = (msecs // 500) & 1
+
+    if now != last_second:
         if (now - last_ntp_update) > REFRESH_NTP:
             print('Time to update NTP Time')
             update_time()
         if (now - last_weather_update) > REFRESH_WEATHER:
             print('Time to update weather')
             update_weather()
+
         local_now = now + current_tz
         year, month, day, hour, minute, second, weekday, _ = time.localtime(local_now)
-        gu.set_brightness(max(.15,min(1.,gu.light()/600)))
+
     if minute == 0 and second < 20:
         for x in range(WIDTH):
-            graphics.set_pen(graphics.create_pen_hsv(x/WIDTH,1,.8))
-            graphics.line(x,0,x,HEIGHT)
-
-
+            graphics.set_pen(graphics.create_pen_hsv(x / WIDTH, 1, .8))
+            graphics.line(x, 0, x, HEIGHT)
     else:
         graphics.set_pen(PENS[0])
         graphics.clear()
-        graphics.set_pen(PENS[1]) # change the colour of the clock
-        draw_number(f"{hour:02}",0, 0)
+        graphics.set_pen(PENS[1])  # Change the color of the clock
+        draw_number(f"{hour:02}", 0, 0)
         draw_number(f"{minute:02}", 10, 0)
-        graphics.set_pen(PENS[2]) # change the colour of the date
-        draw_number(f"{day:02}",0, 6)
+        graphics.set_pen(PENS[2])  # Change the color of the date
+        draw_number(f"{day:02}", 0, 6)
         draw_number(f"{month:02}", 10, 6)
 
-
-        graphics.set_pen(PENS[15]) # change the colour of the time dots
+        graphics.set_pen(PENS[15])  # Change the color of the time dots
         if parity:
-            graphics.pixel(8,1)
-            graphics.pixel(8,3)
+            graphics.pixel(8, 1)
+            graphics.pixel(8, 3)
 
         if forecasts is not None:
-            draw_forecast(forecasts[displayed_forecast_index],-scrolling_pos)
+            draw_forecast(forecasts[displayed_forecast_index], -scrolling_pos)
 
-
-    time.sleep(.1)
+    time.sleep(0.1)
     gu.update(graphics)
     cycles += 1
