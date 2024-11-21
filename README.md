@@ -1,3 +1,15 @@
+This is a slimmed down version of Raphaël Velt's clock.
+I felt their version was a bit to busy. 
+Removed - birds
+        - scrolling updates
+        - hearts
+
+Added   - Feels like temprature 
+        - formatting of code
+
+
+
+
 # galactic-weather-clock
  A clock showing the weather on a Pimoroni Galactic Unicorn
 
