@@ -218,30 +218,27 @@ while True:
         local_now = now + current_tz
         year, month, day, hour, minute, second, weekday, _ = time.localtime(local_now)
 
-    if minute == 0 and second < 20:
-        pass
+    graphics.set_pen(PENS[0])
+    graphics.clear()
+    graphics.set_pen(PENS[1])  # Change the color of the clock
+    draw_number(f"{hour:02}", 0, 0)
+    draw_number(f"{minute:02}", 10, 0)
+    graphics.set_pen(PENS[2])  # Change the color of the date
+    draw_number(f"{day:02}", 0, 6)
+    draw_number(f"{month:02}", 10, 6)
 
-    else:
-        graphics.set_pen(PENS[0])
-        graphics.clear()
-        graphics.set_pen(PENS[1])  # Change the color of the clock
-        draw_number(f"{hour:02}", 0, 0)
-        draw_number(f"{minute:02}", 10, 0)
-        graphics.set_pen(PENS[2])  # Change the color of the date
-        draw_number(f"{day:02}", 0, 6)
-        draw_number(f"{month:02}", 10, 6)
+    graphics.set_pen(PENS[15])  # Change the color of the time dots
+    if parity:
+        graphics.pixel(8, 1)
+        graphics.pixel(8, 3)
 
-        graphics.set_pen(PENS[15])  # Change the color of the time dots
-        if parity:
-            graphics.pixel(8, 1)
-            graphics.pixel(8, 3)
-
-        if forecasts is not None:
-            draw_forecast(forecasts[displayed_forecast_index], -scrolling_pos)
+    if forecasts is not None:
+        draw_forecast(forecasts[displayed_forecast_index], -scrolling_pos)
 
     time.sleep(0.1)
     gu.update(graphics)
     cycles += 1
+
 
 # to-do
 # change some spites
