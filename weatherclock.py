@@ -243,3 +243,6 @@ while True:
     time.sleep(0.1)
     gu.update(graphics)
     cycles += 1
+
+# to-do
+# change some spites
