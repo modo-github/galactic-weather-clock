@@ -7,7 +7,7 @@
 This is a slimmed down version of Raphaël Velt's clock.
 I felt their version was a bit to busy. 
 #### Removed 
-* Birds, 
+* Birds
 * Scrolling updates 
 * Hearts
 
