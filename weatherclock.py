@@ -219,9 +219,8 @@ while True:
         year, month, day, hour, minute, second, weekday, _ = time.localtime(local_now)
 
     if minute == 0 and second < 20:
-        for x in range(WIDTH):
-            graphics.set_pen(graphics.create_pen_hsv(x / WIDTH, 1, .8))
-            graphics.line(x, 0, x, HEIGHT)
+        pass
+
     else:
         graphics.set_pen(PENS[0])
         graphics.clear()
