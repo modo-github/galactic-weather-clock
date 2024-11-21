@@ -19,7 +19,8 @@ I felt their version was a bit to busy.
 * Formatting of code
 * Brightness controls
 * Sleep button
-
+* A button to refresh time
+* B button to refresh weather
 
 ### Preview
 
@@ -42,5 +43,4 @@ I felt their version was a bit to busy.
 
 ### To-do
 * Update some of the weather sprites
-* A button to refresh time
-* B button to refresh weather
+
