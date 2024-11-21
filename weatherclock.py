@@ -142,6 +142,17 @@ def draw_forecast(forecast, offset_y):
     # print(forecast[1])
 
 
+def handle_switch_actions():
+    """Handle Galactic Unicorn switches for specific actions."""
+    if gu.is_pressed(GalacticUnicorn.SWITCH_A):
+        print("SWITCH_A pressed: Updating time")
+        update_time()
+
+    if gu.is_pressed(GalacticUnicorn.SWITCH_B):
+        print("SWITCH_B pressed: Updating weather")
+        update_weather()
+
+
 # Brightness control and sleep mode functions
 def handle_brightness_change():
     global brightness
@@ -186,6 +197,7 @@ cycles = 0
 while True:
     handle_brightness_change()
     handle_sleep_mode()
+    handle_switch_actions()  # Check for switch presses
 
     if sleep_mode:
         time.sleep(0.1)
