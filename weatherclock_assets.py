@@ -10,23 +10,25 @@ DIGITS3x5 = (
 )
 
 BASE_COLORS = (
-    ( 0x00, 0x00, 0x00 ), # 0 = BLACK
-    ( 0xff, 0x60, 0x60 ), # 1 = RED
-    ( 0x60, 0xff, 0x60 ), # 2 = GREEN
-    ( 0x60, 0x60, 0xff ), # 3 = BLUE
-    ( 0xff, 0xff, 0x60 ), # 4 = YELLOW
-    ( 0xff, 0x60, 0xff ), # 5 = MAGENTA
-    ( 0x60, 0xff, 0xff ), # 6 = CYAN
-    ( 0xff, 0xa0, 0xa0 ), # 7 = RED-ISH
-    ( 0xa0, 0xff, 0xa0 ), # 8 = GREEN-ISH
-    ( 0xa0, 0xa0, 0xff ), # 9 = BLUE-ISH
-    ( 0xff, 0xff, 0xa0 ), # a = YELLOW-ISH
-    ( 0xff, 0xa0, 0xff ), # b = MAGENTA-ISH
-    ( 0xa0, 0xff, 0xff ), # c = CYAN-ISH
-    ( 0x80, 0x80, 0x80 ), # d = GRAY
-    ( 0xcc, 0xcc, 0xcc ), # e = OFF-WHITE
-    ( 0xff, 0xff, 0xff ), # f = WHITE
+    (0x00, 0x00, 0x00), # 0 = BLACK
+    (0xff, 0x60, 0x60), # 1 = RED
+    (0x60, 0xff, 0x60), # 2 = GREEN
+    (0x60, 0x60, 0xff), # 3 = BLUE
+    (0xff, 0xff, 0x60), # 4 = YELLOW
+    (0xff, 0x60, 0xff), # 5 = MAGENTA
+    (0x60, 0xff, 0xff), # 6 = CYAN
+    (0xff, 0xa5, 0x00), # 7 = ORANGE
+    (0xa0, 0xff, 0xa0), # 8 = GREEN-ISH
+    (0xa0, 0xa0, 0xff), # 9 = BLUE-ISH
+    (0xff, 0xff, 0xa0), # a = YELLOW-ISH
+    (0xff, 0xa0, 0xff), # b = MAGENTA-ISH
+    (0xa0, 0xff, 0xff), # c = CYAN-ISH
+    (0x80, 0x80, 0x80), # d = GRAY
+    (0xcc, 0xcc, 0xcc), # e = OFF-WHITE
+    (0xff, 0xff, 0xff), # f = WHITE
+
 )
+
 
 SNOW = (
     (71, 73, 75, 77, 85, 86),
@@ -34,7 +36,7 @@ SNOW = (
     # 77: Snow grains
     # 85, 86: Snow showers slight and heavy
     (
-        0x000eeeeee000000,
+        0x000eeee000000,
         0x0eeeeeeeeeeee00,
         0xeeeeeeeeeeeeeee,
         0x0eeeeeeeeeeeee0,
@@ -161,9 +163,9 @@ RAIN = (
         0x000000000000000,
         0x030003000300030,
         0x000300030003000,
-        0x030003000300030,
-        0x000300030003000,
-        0x030003000300030,
+        0x030003000900030,
+        0x000900030003000,
+        0x030003000300090,
         0x000300030003000,
     ),
     (
@@ -173,11 +175,11 @@ RAIN = (
         0x0eeeeeeeeeeeee0,
         0x000000000000000,
         0x000300030003000,
+        0x030003000300090,
+        0x000900030003000,
         0x030003000300030,
-        0x000300030003000,
-        0x030003000300030,
-        0x000300030003000,
-        0x030003000300030,
+        0x000900030003000,
+        0x030003000900030,
     ),
 )
 
@@ -227,17 +229,17 @@ SUN = (
         0x000000000000000,
     ),
     (
-        0x000000040000000,
-        0x000400000004000,
-        0x000040444040000,
+        0x000000070000000,
+        0x000700000007000,
+        0x000070444070000,
         0x000004444400000,
         0x000044444440000,
-        0x044044444440440,
+        0x077044444440770,
         0x000044444440000,
         0x000004444400000,
-        0x000040444040000,
-        0x000400000004000,
-        0x000000040000000,
+        0x000070444070000,
+        0x000700000007000,
+        0x000000070000000,
     ),
 )
 
