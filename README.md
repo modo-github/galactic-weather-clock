@@ -28,7 +28,7 @@ I felt their version was a bit to busy.
 
 ### Dependencies
 
- * You need version 1.19.18 of the Micropython firmware for the Raspberry Pi Pico W (It uses the HSV pen function from that release). Check <https://github.com/pimoroni/pimoroni-pico/releases> for Firmware updates
+ * You need at least version 1.19.18 of the Micropython firmware for the Raspberry Pi Pico W (It uses the HSV pen function from that release). Check <https://github.com/pimoroni/pimoroni-pico/releases> for Firmware updates
 
 ### Description of files
 
