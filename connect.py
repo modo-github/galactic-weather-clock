@@ -1,7 +1,6 @@
 import network
 import time
-import gc
-import WIFI_CONFIG
+import secrets
 
 def isconnected():
     return network.WLAN(network.STA_IF).isconnected()
@@ -9,7 +8,7 @@ def isconnected():
 def connect():
     sta = network.WLAN(network.STA_IF)
     sta.active(True)
-    sta.connect(WIFI_CONFIG.SSID,WIFI_CONFIG.PSK)
+    sta.connect(secrets.SSID,secrets.PSK)
     for seconds in range(12):
         isconnected = sta.isconnected()
         print('Connected' if isconnected else 'Waiting for connection')

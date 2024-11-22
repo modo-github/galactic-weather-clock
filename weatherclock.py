@@ -1,19 +1,18 @@
 import time
-import machine
 import ntptime
 import urequests
 from galactic import GalacticUnicorn
 from picographics import PicoGraphics, DISPLAY_GALACTIC_UNICORN
 from connect import connect, isconnected
 import weatherclock_assets
-import location_config
+import secrets
 
 
 graphics = PicoGraphics(display=DISPLAY_GALACTIC_UNICORN)
 gu = GalacticUnicorn()
 
 # Initialize state variables
-brightness = 0.5
+brightness = 0.2
 sleep_mode = False
 
 
@@ -25,9 +24,9 @@ REFRESH_NTP = 3600
 REFRESH_WEATHER = 1200
 
 WEATHER_URL = "http://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&current=temperature_2m,apparent_temperature,weather_code&timezone=%s&forecast_days=1"%(
-    location_config.LATITUDE,
-    location_config.LONGITUDE,
-    location_config.TZ_DEF.replace('/','%2F')
+    secrets.LATITUDE,
+    secrets.LONGITUDE,
+    secrets.TZ_DEF.replace('/', '%2F')
 
 )
 
@@ -136,8 +135,8 @@ def draw_number( num, offset_x, offset_y, from_right=False):
 def draw_forecast(forecast, offset_y):
     graphics.set_pen(PENS[15])
     draw_number('%.0fd'%forecast[1],32,0+offset_y,True)
-    draw_weather(forecast[2],parity,38,offset_y)
     draw_number('%.0fd'%forecast[3],32,6+offset_y,True)
+    draw_weather(forecast[2],parity,38,offset_y)
     # print(forecast[3])
     # print(forecast[1])
 
@@ -179,7 +178,7 @@ graphics.clear()
 graphics.set_pen(PENS[15])
 graphics.set_font('display8')
 graphics.text("Hello!", 0, 0, scale=.5)
-gu.set_brightness(.5)
+gu.set_brightness(.2)
 gu.update(graphics)
 connect()
 
