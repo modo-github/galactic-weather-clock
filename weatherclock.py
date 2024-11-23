@@ -134,8 +134,8 @@ def draw_number( num, offset_x, offset_y, from_right=False):
 
 def draw_forecast(forecast, offset_y):
     graphics.set_pen(PENS[15])
-    draw_number('%.0fd'%forecast[1],32,0+offset_y,True)
-    draw_number('%.0fd'%forecast[3],32,6+offset_y,True)
+    draw_number('%.0fd'%forecast[1],34,0+offset_y,True)
+    draw_number('%.0fd'%forecast[3],34,6+offset_y,True)
     draw_weather(forecast[2],parity,38,offset_y)
     # print(forecast[3])
     # print(forecast[1])
