@@ -191,7 +191,7 @@ RAIN_LIGHT = (
         0x0eeeeeeeeeeee00,
         0xeeeeeeeeeeeeeee,
         0x0eeeeeeeeeeeee0,
-        0x000000000000000,
+        0x00000000000000,
         0x030000000300000,
         0x000003000000030,
         0x090000000900000,

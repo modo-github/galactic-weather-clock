@@ -22,6 +22,7 @@ I felt their version was a bit to busy.
 * A button to refresh time
 * B button to refresh weather
 * changed wifi config and location config into more common secrets.py
+* Changed colours of the weather sprites
 
 ### Preview
 
@@ -41,7 +42,3 @@ I felt their version was a bit to busy.
 
 Link to the original and more fun version
 <https://github.com/raphv/galactic-weather-clock>
-
-
-### To-do
-* Update some of the weather sprites
